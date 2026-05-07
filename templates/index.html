@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake News Detector</title>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>📰 Fake News Detector</h1>
+        <p>Paste the news article content below to verify its authenticity.</p>
+        
+        <form action="/predict" method="POST" onsubmit="showLoading()">
+            <textarea name="message" rows="10" placeholder="Paste news text here..." required></textarea>
+            <br>
+            <button type="submit" class="btn">
+                <i class="fas fa-search"></i> Verify News
+            </button>
+        </form>
+
+        <!-- 🔄 Loading Spinner -->
+        <div id="loading" class="loading hidden">
+            <i class="fas fa-spinner fa-spin"></i> Checking news...
+        </div>
+
+        <!-- ✅ Result -->
+        {% if prediction %}
+            <div class="result {{ prediction }}">
+                <h2>
+                    {% if prediction == "REAL" %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                        <i class="fas fa-times-circle"></i>
+                    {% endif %}
+                    The news is: <span>{{ prediction }}</span>
+                </h2>
+            </div>
+        {% endif %}
+
+    </div>
+
+<script>
+function showLoading() {
+    document.getElementById("loading").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
